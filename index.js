@@ -34,11 +34,50 @@ simpan.addEventListener("click", function(){
     }
     console.log(nama.value)
 
+    if ($('#nis').val() == ""|| $('#nis').val() == 0) {
+        // focus ke input provider pulsa
+        $("#nis").focus();
+        // tampilkan peringatan data tidak boleh kosong
+        swal("Peringatan!", "Nim tidak boleh kosong.", "warning");
+    }else if ($('#nama').val() == "" ) {
+        // focus ke input nominal
+        $("#nama").focus();
+        // tampilkan peringatan data tidak boleh kosong
+        swal("Peringatan!", "Nama tidak boleh kosong.", "warning");
+    }
+    // jika prodi kosong
+    else if ($('#kelas').val() == "Pilih") {
+        // focus ke input harga
+        $("#kelas").focus();
+        // tampilkan peringatan data tidak boleh kosong
+        swal("Peringatan!", "kelas tidak boleh kosong.", "warning");
+    }
+    // jika semester kosong atau 0 (nol)
+    else if ($('input[name="jekel"]:checked').length == 0) {
+        // focus ke input nominal
+        // $("#").focus();
+        // tampilkan peringatan data tidak boleh kosong
+        swal("Peringatan!", "kelamin tidak boleh kosong.", "warning");
+    }
+    
+    else if ($('#no_hp').val() == "") {
+        // focus ke input harga
+        $("#no_hp").focus();
+        // tampilkan peringatan data tidak boleh kosong
+        swal("Peringatan!", "Nomor Telepon harus diisi.", "warning");
+    }
+    else {
+
   push(ref(db, 'siswa'), {
     nim: nim.value,
     nama : nama.value,
     kelas: kelas.value,
     jenis_kelamin: jenis_kelamin,
     no_hp: no_hp.value
-  });
+  }); }
+})
+
+let tabel_siswa = document.getElementById('tabel_siswa')
+tabel_siswa.addEventListener('load',function(){
+    console.log('tes')
 })

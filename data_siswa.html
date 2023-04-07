@@ -25,7 +25,7 @@
         
       </tr>
     </thead>
-    <tbody id="tabel_siswa">
+    <tbody id="tabel_siswa" onload=refresh()>
       
     </tbody>
   </table>
@@ -86,49 +86,47 @@
         
         
         
-        <script type="text/javascript">
+        <!-- <script type="text/javascript">
         
-        // $('#btnsimpan_siswa').click(function() {
-        //         // Validasi form input
-        //         // jika nim kosong
-        //         if ($('#nim').val() == ""|| $('#nim').val() == 0) {
-        //             // focus ke input provider pulsa
-        //             $("#nim").focus();
-        //             // tampilkan peringatan data tidak boleh kosong
-        //             swal("Peringatan!", "Nim tidak boleh kosong.", "warning");
-        //         }
-        //         // jika nama kosong atau 0 (nol)
-        //         else if ($('#nama').val() == "" ) {
-        //             // focus ke input nominal
-        //             $("#nama").focus();
-        //             // tampilkan peringatan data tidak boleh kosong
-        //             swal("Peringatan!", "Nama tidak boleh kosong.", "warning");
-        //         }
-        //         // jika prodi kosong
-        //         else if ($('#agama').val() == "Pilih Agama") {
-        //             // focus ke input harga
-        //             $("#agama").focus();
-        //             // tampilkan peringatan data tidak boleh kosong
-        //             swal("Peringatan!", "Agama tidak boleh kosong.", "warning");
-        //         }
-        //         // jika semester kosong atau 0 (nol)
-        //         else if ($('input[name="inlineRadioOptions"]:checked').length == 0) {
-        //             // focus ke input nominal
-        //             // $("#").focus();
-        //             // tampilkan peringatan data tidak boleh kosong
-        //             swal("Peringatan!", "kelamin tidak boleh kosong.", "warning");
-        //         }
-        //         }
-        //         else if ($('#no_hp').val() == "") {
-        //             // focus ke input harga
-        //             $("#no_hp").focus();
-        //             // tampilkan peringatan data tidak boleh kosong
-        //             swal("Peringatan!", "Nomor Telepon harus diisi.", "warning");
-        //         }
-        //         // jika semua data sudah terisi, jalankan perintah simpan data
-        //       
-        
-             </script>
+        $('#btnsimpan_siswa').click(function() {
+                // Validasi form input
+                // jika nim kosong
+                if ($('#nis').val() == ""|| $('#nis').val() == 0) {
+                    // focus ke input provider pulsa
+                    $("#nis").focus();
+                    // tampilkan peringatan data tidak boleh kosong
+                    swal("Peringatan!", "Nim tidak boleh kosong.", "warning");
+                }
+                // jika nama kosong atau 0 (nol)
+                else if ($('#nama').val() == "" ) {
+                    // focus ke input nominal
+                    $("#nama").focus();
+                    // tampilkan peringatan data tidak boleh kosong
+                    swal("Peringatan!", "Nama tidak boleh kosong.", "warning");
+                }
+                // jika prodi kosong
+                else if ($('#kelas').val() == "Pilih") {
+                    // focus ke input harga
+                    $("#kelas").focus();
+                    // tampilkan peringatan data tidak boleh kosong
+                    swal("Peringatan!", "kelas tidak boleh kosong.", "warning");
+                }
+                // jika semester kosong atau 0 (nol)
+                else if ($('input[name="jekel"]:checked').length == 0) {
+                    // focus ke input nominal
+                    // $("#").focus();
+                    // tampilkan peringatan data tidak boleh kosong
+                    swal("Peringatan!", "kelamin tidak boleh kosong.", "warning");
+                }
+                
+                else if ($('#no_hp').val() == "") {
+                    // focus ke input harga
+                    $("#no_hp").focus();
+                    // tampilkan peringatan data tidak boleh kosong
+                    swal("Peringatan!", "Nomor Telepon harus diisi.", "warning");
+                }})
+                // jika semua data sudah terisi, jalankan perintah simpan data
+             </script> -->
         
         <div class="modal-footer">
             <button type="button" class="btn btn-primary" id ="btnsimpan_siswa">Simpan</button>
