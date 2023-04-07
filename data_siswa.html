@@ -1,0 +1,53 @@
+
+<h1 style=" margin-top: 55px;">Data Siswa</h1>
+<main id="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+<!-- form -->
+<div class="container">
+<div class="content-header" style = "margin-top : 40        px">
+<div class="row">
+<div class="col-md-8">
+    <form id='form'>
+        <div class="form-group">
+            <label for="NIP">Nis</label>
+            <input name="NIP" type="text" class="form-control" onKeyPress="return goodchars(event,'0123456789.',this)" id="nis" placeholder="NIS">
+        </div>
+        <div class="form-group">
+            <label for="nama">Nama</label>
+            <input name="nama" type="text" class="form-control" id="nama" placeholder="Nama">
+        </div>
+        <div class="form-row">
+        <div class="form-group col-md-8">
+        <div class="form-group">
+            <label for="jeniskel">Hafalan Sebelum</label>
+            <select name="jeniskel" class="form-control" id="jeniskel">
+                <option>Pilih..</option>
+                <option value="Pria">Pria</option>
+                <option value="Wanita">Wanita</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="jeniskel">Hafalan Sesudah</label>
+            <select name="jeniskel" class="form-control" id="jeniskel">
+                <option>Pilih..</option>
+                <option value="Pria">Pria</option>
+                <option value="Wanita">Wanita</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="jeniskel">Kelas</label>
+            <select name="jeniskel" class="form-control" id="kelas">
+                <option>Pilih..</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+            </select>
+        </div>
+        </div>
+</div>
+         <button type="button" id="simpan" class="btn btn-primary mt-2">Simpan</button>
+    </form>
+</div>
+</div>
+</div>
+
+</main>
+</div>
