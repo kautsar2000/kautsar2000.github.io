@@ -139,5 +139,5 @@ function cariSiswa() {
     }
   }
 
-window.onload = function () {
-    showDataSiswa();}
+// window.onload = function () {
+//     showDataSiswa();}
