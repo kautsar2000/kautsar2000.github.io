@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-import { getDatabase, ref, push,onValue } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+import { getDatabase, ref, push,onValue,remove,get,update } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+import "https://cdn.jsdelivr.net/npm/sweetalert2@11"
 
 const firebaseConfig = {
     apiKey: "AIzaSyBElrUrrKvje2PcoW6TyvCTq5flFIjV_8g",
@@ -23,8 +24,38 @@ let jenis_kelamin
 let no_hp = document.getElementById("no_hp")
 
 
+
 let simpan = document.getElementById('btnsimpan_siswa')
 simpan.addEventListener("click", function(){
+  if(simpan.dataset.siswaId){ //untuk update data
+    let ele = document.getElementsByName('jekel');
+    
+    for(let i = 0; i < ele.length; i++) {
+        if(ele[i].checked){
+            jenis_kelamin = ele[i].value
+        }}
+    update(ref(db, 'siswa/'+simpan.dataset.siswaId), {
+      nim: nim.value,
+      nama : nama.value,
+      kelas: kelas.value,
+      jenis_kelamin: jenis_kelamin,
+      no_hp: no_hp.value
+    })
+    .then(() => {
+      // Refresh data setelah berhasil diubah
+      window.swal({
+          title: "Data berhasil diubah",
+          icon: "success",
+          button: "OK",})
+      $("#staticBackdrop").modal("hide");
+      document.getElementById("form_siswa").reset();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+    simpan.dataset.siswaId = null
+    document.getElementById("form_siswa").reset();
+}else{
     let ele = document.getElementsByName('jekel');
     
     for(let i = 0; i < ele.length; i++) {
@@ -38,33 +69,33 @@ simpan.addEventListener("click", function(){
         // focus ke input provider pulsa
         $("#nis").focus();
         // tampilkan peringatan data tidak boleh kosong
-        swal("Peringatan!", "Nim tidak boleh kosong.", "warning");
+        window.swal("Peringatan!", "Nim tidak boleh kosong.", "warning");
     }else if ($('#nama').val() == "" ) {
         // focus ke input nominal
         $("#nama").focus();
         // tampilkan peringatan data tidak boleh kosong
-        swal("Peringatan!", "Nama tidak boleh kosong.", "warning");
+        window. swal("Peringatan!", "Nama tidak boleh kosong.", "warning");
     }
     // jika prodi kosong
     else if ($('#kelas').val() == "Pilih") {
         // focus ke input harga
         $("#kelas").focus();
         // tampilkan peringatan data tidak boleh kosong
-        swal("Peringatan!", "kelas tidak boleh kosong.", "warning");
+        window. swal("Peringatan!", "kelas tidak boleh kosong.", "warning");
     }
     // jika semester kosong atau 0 (nol)
     else if ($('input[name="jekel"]:checked').length == 0) {
         // focus ke input nominal
         // $("#").focus();
         // tampilkan peringatan data tidak boleh kosong
-        swal("Peringatan!", "kelamin tidak boleh kosong.", "warning");
+        window.swal("Peringatan!", "kelamin tidak boleh kosong.", "warning");
     }
     
     else if ($('#no_hp').val() == "") {
         // focus ke input harga
         $("#no_hp").focus();
         // tampilkan peringatan data tidak boleh kosong
-        swal("Peringatan!", "Nomor Telepon harus diisi.", "warning");
+        window. swal("Peringatan!", "Nomor Telepon harus diisi.", "warning");
     }
     else {
 
@@ -77,25 +108,25 @@ simpan.addEventListener("click", function(){
           })
           .then(() => {
             // Refresh data setelah berhasil menambahkan
-            swal({
+            window.swal({
                 title: "Data berhasil ditambahkan!",
                 icon: "success",
                 button: "OK",})
             $("#staticBackdrop").modal("hide");
-            showDataSiswa();
+            document.getElementById("form_siswa").reset();
           })
           .catch((error) => {
             console.error(error);
           });
  
-}
+}}
 })
 
 // let tabel_siswa = document.getElementById('tabel_siswa')
 // tabel_siswa.addEventListener('load',function(){
 //     console.log('tes')
 // })
-function showDataSiswa() {
+
 let tabel_siswa = document.getElementById('tabel_siswa');
 onValue(ref(db, 'siswa'), (snapshot) => {
     let data = snapshot.val();
@@ -112,14 +143,14 @@ onValue(ref(db, 'siswa'), (snapshot) => {
         tabel_siswa_html += '<td>' + data[siswa_id].jenis_kelamin + '</td>';
         tabel_siswa_html += '<td>' + data[siswa_id].no_hp + '</td>';
         tabel_siswa_html += '<td>';
-        tabel_siswa_html += '<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalEditSiswa" onclick="editSiswa(\''+siswa_id+'\')">Edit</button>';
+        tabel_siswa_html += '<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalEditSiswa" onclick=" editSiswa(\''+siswa_id+'\')"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">Edit</button>';
         tabel_siswa_html += ' <button type="button" class="btn btn-danger btn-sm" onclick="hapusSiswa(\''+siswa_id+'\')">Hapus</button>';
         tabel_siswa_html += '</td>';
         tabel_siswa_html += '</tr>';
     }
 
     $('#tabel_siswa tbody').html(tabel_siswa_html);
-});}
+});
 //cari siswa
 function cariSiswa() {
     let input = document.getElementById("cari_siswa").value.toLowerCase();
@@ -139,5 +170,43 @@ function cariSiswa() {
     }
   }
 
-// window.onload = function () {
-//     showDataSiswa();}
+// hapus
+window.hapusSiswa = function hapusSiswa(siswaId) {
+  window.Swal.fire({
+    title: 'Apakah Anda yakin ingin menghapus data siswa ini?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Ya, hapus data ini!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+
+      remove(ref(db, 'siswa/' + siswaId)).then(() => {
+          Swal.fire(
+            'Terhapus',
+            'Data berhasil terhapus.',
+            'success'
+          )
+      })
+      }
+  })
+}
+
+
+//edit
+window.editSiswa = function editSiswa(siswaId){
+  console.log(siswaId)
+  simpan.dataset.siswaId = siswaId
+  get(ref(db, "siswa/"+siswaId)).then((snapshot)=> {
+      // console.log(snapshot.val())
+      let data = snapshot.val()
+      nim.value = data.nim,
+      nama.value = data.nama,
+      kelas.value= data.kelas,
+      document.querySelector(`input[name="jekel"][value="${data.jenis_kelamin}"]`).checked = true;
+      no_hp.value= data.no_hp
+  })
+}
+let reset_modalsiswa = document.getElementById('btntambah')
+reset_modalsiswa.addEventListener("click",function (){document.getElementById("form_siswa").reset();})
