@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-import { getDatabase, ref, push,onValue,remove,get,update } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+import { getDatabase, ref, push,onValue,remove,get,update,query,orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
 import "https://cdn.jsdelivr.net/npm/sweetalert2@11"
 
 const firebaseConfig = {
@@ -24,7 +24,7 @@ let jenis_kelamin
 let no_hp = document.getElementById("no_hp")
 
 
-
+//simpan_siswa
 let simpan = document.getElementById('btnsimpan_siswa')
 simpan.addEventListener("click", function(){
   if(simpan.dataset.siswaId){ //untuk update data
@@ -34,6 +34,39 @@ simpan.addEventListener("click", function(){
         if(ele[i].checked){
             jenis_kelamin = ele[i].value
         }}
+      if ($('#nim').val() == ""|| $('#nim').val() == 0) {
+          // focus ke input provider pulsa
+          $("#nim").focus();
+          // tampilkan peringatan data tidak boleh kosong
+          window.swal("Peringatan!", "Nis tidak boleh kosong.", "warning");
+      }else if ($('#nama').val() == "" ) {
+          // focus ke input nominal
+          $("#nama").focus();
+          // tampilkan peringatan data tidak boleh kosong
+          window. swal("Peringatan!", "Nama tidak boleh kosong.", "warning");
+      }
+      // jika prodi kosong
+      else if ($('#kelas').val() == "Pilih..") {
+          // focus ke input harga
+          $("#kelas").focus();
+          // tampilkan peringatan data tidak boleh kosong
+          window. swal("Peringatan!", "kelas tidak boleh kosong.", "warning");
+      }
+      // jika semester kosong atau 0 (nol)
+      else if ($('input[name="jekel"]:checked').length == 0) {
+          // focus ke input nominal
+          // $("#").focus();
+          // tampilkan peringatan data tidak boleh kosong
+          window.swal("Peringatan!", "jenis kelamin tidak boleh kosong.", "warning");
+      }
+      
+      else if ($('#no_hp').val() == "") {
+          // focus ke input harga
+          $("#no_hp").focus();
+          // tampilkan peringatan data tidak boleh kosong
+          window. swal("Peringatan!", "Nomor Telepon harus diisi.", "warning");
+      }
+      else {
     update(ref(db, 'siswa/'+simpan.dataset.siswaId), {
       nim: nim.value,
       nama : nama.value,
@@ -54,7 +87,7 @@ simpan.addEventListener("click", function(){
       console.error(error);
     });
     simpan.dataset.siswaId = null
-    document.getElementById("form_siswa").reset();
+    document.getElementById("form_siswa").reset();}
 }else{
     let ele = document.getElementsByName('jekel');
     
@@ -65,11 +98,11 @@ simpan.addEventListener("click", function(){
     }
     console.log(nama.value)
 
-    if ($('#nis').val() == ""|| $('#nis').val() == 0) {
+    if ($('#nim').val() == ""|| $('#nim').val() == 0) {
         // focus ke input provider pulsa
-        $("#nis").focus();
+        $("#nim").focus();
         // tampilkan peringatan data tidak boleh kosong
-        window.swal("Peringatan!", "Nim tidak boleh kosong.", "warning");
+        window.swal("Peringatan!", "Nis tidak boleh kosong.", "warning");
     }else if ($('#nama').val() == "" ) {
         // focus ke input nominal
         $("#nama").focus();
@@ -77,7 +110,7 @@ simpan.addEventListener("click", function(){
         window. swal("Peringatan!", "Nama tidak boleh kosong.", "warning");
     }
     // jika prodi kosong
-    else if ($('#kelas').val() == "Pilih") {
+    else if ($('#kelas').val() == "Pilih..") {
         // focus ke input harga
         $("#kelas").focus();
         // tampilkan peringatan data tidak boleh kosong
@@ -88,7 +121,7 @@ simpan.addEventListener("click", function(){
         // focus ke input nominal
         // $("#").focus();
         // tampilkan peringatan data tidak boleh kosong
-        window.swal("Peringatan!", "kelamin tidak boleh kosong.", "warning");
+        window.swal("Peringatan!", "jenis kelamin tidak boleh kosong.", "warning");
     }
     
     else if ($('#no_hp').val() == "") {
@@ -122,10 +155,7 @@ simpan.addEventListener("click", function(){
 }}
 })
 
-// let tabel_siswa = document.getElementById('tabel_siswa')
-// tabel_siswa.addEventListener('load',function(){
-//     console.log('tes')
-// })
+
 
 let tabel_siswa = document.getElementById('tabel_siswa');
 onValue(ref(db, 'siswa'), (snapshot) => {
@@ -151,26 +181,9 @@ onValue(ref(db, 'siswa'), (snapshot) => {
 
     $('#tabel_siswa tbody').html(tabel_siswa_html);
 });
-//cari siswa
-function cariSiswa() {
-    let input = document.getElementById("cari_siswa").value.toLowerCase();
-    let tabel_siswa = document.getElementById('tabel_siswa');
-    let rowSiswa = tabel_siswa.getElementsByTagName("tr");
-    
-    for (let i = 0; i < rowSiswa.length; i++) {
-      let cell = rowSiswa[i].getElementsByTagName("td")[1];
-      if (cell) {
-        let nama = cell.innerHTML.toLowerCase();
-        if (nama.indexOf(input) > -1) {
-          rowSiswa[i].style.display = "";
-        } else {
-          rowSiswa[i].style.display = "none";
-        }
-      }
-    }
-  }
 
-// hapus
+
+// hapus_siswa
 window.hapusSiswa = function hapusSiswa(siswaId) {
   window.Swal.fire({
     title: 'Apakah Anda yakin ingin menghapus data siswa ini?',
@@ -194,7 +207,7 @@ window.hapusSiswa = function hapusSiswa(siswaId) {
 }
 
 
-//edit
+//edit_siswa
 window.editSiswa = function editSiswa(siswaId){
   console.log(siswaId)
   simpan.dataset.siswaId = siswaId
@@ -208,5 +221,40 @@ window.editSiswa = function editSiswa(siswaId){
       no_hp.value= data.no_hp
   })
 }
+//cari data_siswa
+const search = document.getElementById("cari_siswa")
+const tbody = document.getElementById("tbody")
+
+search.addEventListener("change", function(e){
+    let input = e.target.value
+    get(query(ref(db, `siswa`), ...[orderByChild("kelas"), equalTo(input)])).then(snapshot => {
+        let data = snapshot.val()
+        let row = ""
+        if(data != null){
+            let keys = Object.keys(data)
+            let values = Object.values(data)
+            values.map((val, idx) => {
+                val.id = keys[idx]
+                row += ` 
+                <tr>
+                    <th scope="row">${idx+1}</th>
+                    <td>${val.nim}</td>
+                    <td>${val.nama}</td>
+                    <td>${val.kelas}</td>
+                    <td>${val.jenis_kelamin}</td>
+                    <td>${val.no_hp}</td>
+                    <td>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalEditSiswa" onclick=" editSiswa(\''+siswa_id+'\')"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">Edit</button>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="hapusSiswa(\''+siswa_id+'\')">Hapus</button>
+                    </td>
+                </tr>
+                `
+            })
+
+            tbody.innerHTML = row
+        }
+    })
+})
+
 let reset_modalsiswa = document.getElementById('btntambah')
 reset_modalsiswa.addEventListener("click",function (){document.getElementById("form_siswa").reset();})

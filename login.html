@@ -39,7 +39,7 @@
 					<input type="password" name="password" class="form-control" id="password" placeholder="Password">
 				</div>
         <div class="d-grid gap-2 ">
-          <button type="button" id="login" class="btn btn-primary btn-block mt-3">Login</button>
+          <button type="button" id="login" class="btn btn-primary btn-block mt-3" onclick="pindahHalaman()">Login</button>
         </div>
         <br>
         <div>
@@ -51,69 +51,75 @@
 </div>
 </div>
 
- <!-- footer -->
+<script type="text/javascript">
+ function pindahHalaman() {
+  // Mengatur URL halaman yang akan dituju
+  window.location.href = "dasboard.html";}
+</script>
+  <!-- footer -->
  <!-- <nav class="navbar fixed-bottom ">
   <div class="container-fluid border-2">
     <a class="navbar-brand mx-auto"> &copy; 2022 - Kautsar</a>
   </div>
 </nav> -->
 
-<script type="text/javascript">
-$('#login').click(function(){
-        // Validasi form input
+ <!-- <script type="text/javascript">
+// $('#login').click(function(){
+//         // Validasi form input
        
-        //jika pasword dan username kosong
-        if ($('#password').val()==""&& $('#username').val()==""){
-            // focus ke input
-            $( "#password" ).focus();
-            // tampilkan peringatan data tidak boleh kosong
-            swal("Peringatan!", "Username dan Password tidak boleh kosong.", "warning");
-        }
-         // jika username kosong
-        else if ($('#username').val()==""){
-            // focus ke input
-            $( "#username" ).focus();
-            // tampilkan peringatan data tidak boleh kosong
-            swal("Peringatan!", "Username tidak boleh kosong.", "warning");
-        }
-        // jika password kosong atau 0 (nol)
-        else if ($('#password').val()==""){
-            // focus ke input
-            $( "#password" ).focus();
-            // tampilkan peringatan data tidak boleh kosong
-            swal("Peringatan!", "Password tidak boleh kosong.", "warning");
-        }
+//         //jika pasword dan username kosong
+//         if ($('#password').val()==""&& $('#username').val()==""){
+//             // focus ke input
+//             $( "#password" ).focus();
+//             // tampilkan peringatan data tidak boleh kosong
+//             swal("Peringatan!", "Username dan Password tidak boleh kosong.", "warning");
+//         }
+//          // jika username kosong
+//         else if ($('#username').val()==""){
+//             // focus ke input
+//             $( "#username" ).focus();
+//             // tampilkan peringatan data tidak boleh kosong
+//             swal("Peringatan!", "Username tidak boleh kosong.", "warning");
+//         }
+//         // jika password kosong atau 0 (nol)
+//         else if ($('#password').val()==""){
+//             // focus ke input
+//             $( "#password" ).focus();
+//             // tampilkan peringatan data tidak boleh kosong
+//             swal("Peringatan!", "Password tidak boleh kosong.", "warning");
+//         }
         
-        // jika semua data sudah terisi, jalankan perintah simpan data
-        else {
+//         // jika semua data sudah terisi, jalankan perintah simpan data
+//         else {
             // membuat variabel untuk menampung data dari form entri data
             // var data = $('#loginForm').serialize();
 
-			var Username = $('#username').val();
-			var Password = $('#password').val();
-      console.log(Username);
-			console.log(Password);
-            $.ajax({
-                type : "POST",                              // mengirim data dengan method POST 
-                url  : "check.php",          // proses insert data
-                data : {
-					login : 1,
-					username : Username,
-					password : Password
-				},                                // data yang dikirim
-                success: function(response){
-          console.log(response)
-					if(response==="sukses"){
-						window.location="dashboard.html"
+// 			var Username = $('#username').val();
+// 			var Password = $('#password').val();
+//       console.log(Username);
+// 			console.log(Password);
+//             $.ajax({
+//                 type : "POST",                              // mengirim data dengan method POST 
+//                 url  : "check.php",          // proses insert data
+//                 data : {
+// 					login : 1,
+// 					username : Username,
+// 					password : Password
+// 				},                                // data yang dikirim
+//                 success: function(response){
+//           console.log(response)
+// 					if(response==="sukses"){
+// 						window.location="dashboard.html"
 
-					}else{
-						swal("Gagal!", "Login tidak berhasil, silahkan cek user dan password anda.", "error");
-					}
-                },
-				dataType: 'text'
-            });
-        }
-});      
-</script>
-  </body>
-</html>
+// 					}else{
+// 						swal("Gagal!", "Login tidak berhasil, silahkan cek user dan password anda.", "error");
+// 					}
+//                 },
+// 				dataType: 'text'
+//             });
+//         }
+// });      
+// </script>-->
+
+</body>
+</html> 
