@@ -1,6 +1,16 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <script type="text/javascript">
+      document.addEventListener("DOMContentLoaded", function() {
+  // Periksa status login
+  if (localStorage.getItem("masuk")) {
+    // Pengguna belum login, redirect ke halaman login
+    window.location.href = "data_hafalan.html";
+  }
+});
+      console.log("Halaman telah dimuat");
+    </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- <link rel="stylesheet" type="text/css" href="assets/plugins/bootstrap-5/css/bootstrap.min.css">
@@ -10,6 +20,7 @@
   <script type="text/javascript" src="assets/js/jquery-3.3.1.js"></script>
   <script type="text/javascript" src="assets/sweetalert/js/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="assets/sweetalert/css/sweetalert.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <title>Setor Quran</title>
   </head>
@@ -32,14 +43,14 @@
 			<form id="loginForm">
 				<div class="form-group">
 					<label for="username">Username</label>
-					<input type="text" name="username" class="form-control" id="username" placeholder="Username">
+					<input type="text" name="username" class="form-control" id="username_login" placeholder="Username">
 				</div>
 				<div class="form-group">
 					<label for="Password">Password</label>
-					<input type="password" name="password" class="form-control" id="password" placeholder="Password">
+					<input type="password" name="password" class="form-control" id="password_login" placeholder="Password">
 				</div>
         <div class="d-grid gap-2 ">
-          <button type="button" id="login" class="btn btn-primary btn-block mt-3" onclick="pindahHalaman()">Login</button>
+          <button type="button" id="btnlogin" class="btn btn-primary btn-block mt-3">Login</button>
         </div>
         <br>
         <div>
@@ -51,11 +62,11 @@
 </div>
 </div>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
  function pindahHalaman() {
   // Mengatur URL halaman yang akan dituju
   window.location.href = "dasboard.html";}
-</script>
+</script> -->
   <!-- footer -->
  <!-- <nav class="navbar fixed-bottom ">
   <div class="container-fluid border-2">
@@ -120,6 +131,6 @@
 //         }
 // });      
 // </script>-->
-
+<script type="module" src="register.js"></script>
 </body>
 </html> 

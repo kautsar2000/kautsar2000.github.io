@@ -3,10 +3,15 @@
 
 <head>
   <script type="text/javascript">
-    function show() {
-      // kode untuk mengeksekusi event onload
+      document.addEventListener("DOMContentLoaded", function() {
+  // Periksa status login
+  if (!localStorage.getItem("masuk")) {
+    // Pengguna belum login, redirect ke halaman login
+    window.location.href = "login.html";
+  }
+});
       console.log("Halaman telah dimuat");
-    }</script>
+    </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -37,7 +42,9 @@
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item me-5">
             <a class="nav-link" href="#">
-              <i class="fa-solid fa-user me-2"></i> nama</a>
+              <i class="fa-solid fa-user me-2" ></i> 
+              <span id="nama_pengguna"></span>
+            </a>
           </li>
         </ul>
       </div>
@@ -51,7 +58,7 @@
         <div class="sidebar-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link active" id="menu1" href="#">
+              <a class="nav-link active" id="menu1" href="data_hafalan.html">
                 Data Hafalan
               </a>
             </li>
@@ -68,149 +75,22 @@
             <li class="nav-item">
               <a class="nav-link active" id="menu4" href="#">
                 Laporan
-              </a>
-              <!-- </li>
-        <li class="nav-item">
-          <a class="nav-link active" id="menu5" href="javascript:void(0);">
-            Menu 5
-          </a>
-        </li> -->
+              </a></li>
             <li class="nav-item">
               <a class="nav-link active" id="logout" href="#">
                 Logout
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link active" id="menu4" href="#">
+                202298 A. Kautsar Syahban
+              </a></li>
           </ul>
         </div>
       </nav>
       <main id="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-        <!-- form -->
-        <!-- <div class="container">
-    <div class="content-header" style = "margin-top : 55px">
-    <div class="row">
-        <div class="col-md-8">
-            <form id='form'>
-                <div class="form-group">
-                    <label for="NIP">Nip</label>
-                    <input name="NIP" type="text" class="form-control" onKeyPress="return goodchars(event,'0123456789.',this)" id="nip" placeholder="NIP">
-                </div>
-                <div class="form-group">
-                    <label for="nama">Nama</label>
-                    <input name="nama" type="text" class="form-control" id="nama" placeholder="NAM">
-                </div>
-                <div class="form-row">
-                <div class="form-group col-md-8">
-                <div class="form-group">
-                    <label for="jeniskel">Jenis Kelamin</label>
-                    <select name="jeniskel" class="form-control" id="jeniskel">
-                        <option>Pilih..</option>
-                        <option value="Pria">Pria</option>
-                        <option value="Wanita">Wanita</option>
-                    </select>
-                </div>
-                </div>
-                <div class="form-group col-md-4">
-                <div class="form-group">
-                    <label for="no_hp">Nomor Telpon</label>
-                    <input name="no_hp" type="text" class="form-control" onKeyPress="return goodchars(event,'0123456789.',this)" id="no_hp" placeholder="Nomor Telpon">
-                </div>
-                <div class="form-group col-md-8">
-                    <label for="tujuan">Kelas Yang Diajar</label>
-                    <ul class="list-group">
-                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                   1A
-                   <input type="checkbox" value="1A">
-                   </li>
-                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                   1B
-                   <input type="checkbox" value="1B">
-                   </li>
-                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                   1C
-                   <input type="checkbox" value="1C">
-                  </li>
-                 </ul>
-                </div>
-</div> -->
-        <!-- <button type="button" id="simpan" class="btn btn-primary mt-2">Simpan</button>
-            </form>
-        </div>
-    </div>
-</div>
- </div>  <h1 style=" margin-top: 55px;">Menu 1</h1> -->
-      </main>
-    </div>
 
-
-    <!-- <script type="text/javascript">
-
-      $(document).ready(function () {
-        $('#main').load('menu1.php');
-      });
-
-      $('.nav-link').click(function () {
-        // membuat variabel untuk menampung nama id dari class 'menu' yang diklik
-        var link = $(this).attr('id');
-        // jika id = menu1, maka load halaman view menu1
-        if (link == "menu1") {
-          $('#main').load('data_siswa.html');
-        } else if (link == "menu2") {
-          $('#main').load('data_siswa.html');
-        } else if (link == "menu3") {
-          $('#main').load('menu3.php');
-        } else if (link == "menu4") {
-          $('#main').load('menu4.php');
-        } else if (link == "menu5") {
-          $('#main').load('menu5.php');
-        } else if (link == "logout") {
-          $('#main').load('logout.php');
-        }
-      });
-
-      // $('#logout').click(function() {
-      //   $('.content').load('logout.php');
-      // });
-
-      function getkey(e) {
-        if (window.event)
-          return window.event.keyCode;
-        else if (e)
-          return e.which;
-        else
-          return null;
-      }
-      function goodchars(e, goods, field) {
-        var key, keychar;
-        key = getkey(e);
-        if (key == null) return true;
-
-        keychar = String.fromCharCode(key);
-        keychar = keychar.toLowerCase();
-        goods = goods.toLowerCase();
-
-        // check goodkeys
-        if (goods.indexOf(keychar) != -1)
-          return true;
-        // control keys
-        if (key == null || key == 0 || key == 8 || key == 9 || key == 27)
-          return true;
-
-        if (key == 13) {
-          var i;
-          for (i = 0; i < field.form.elements.length; i++)
-            if (field == field.form.elements[i])
-              break;
-          i = (i + 1) % field.form.elements.length;
-          field.form.elements[i].focus();
-          return false;
-        };
-        // else return false
-        return false;
-      }
-
-    </script> -->
-
-
+    <script type="module" src="logout.js"></script>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-import { getDatabase, ref, push,onValue,remove,get,update,query,orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+import { getDatabase, ref, push,onValue,remove,get,update,query,orderByChild, equalTo,startAt,endAt } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
 import "https://cdn.jsdelivr.net/npm/sweetalert2@11"
 
 const firebaseConfig = {
@@ -22,11 +22,13 @@ let nama = document.getElementById("nama")
 let kelas = document.getElementById("kelas")
 let jenis_kelamin
 let no_hp = document.getElementById("no_hp")
+let tgllahir = document.getElementById("tgllahir")
+
 
 
 //simpan_siswa
 let simpan = document.getElementById('btnsimpan_siswa')
-simpan.addEventListener("click", function(){
+simpan?.addEventListener("click", function(){
   if(simpan.dataset.siswaId){ //untuk update data
     let ele = document.getElementsByName('jekel');
     
@@ -137,7 +139,8 @@ simpan.addEventListener("click", function(){
             nama : nama.value,
             kelas: kelas.value,
             jenis_kelamin: jenis_kelamin,
-            no_hp: no_hp.value
+            no_hp: no_hp.value,
+            hafalan:{}
           })
           .then(() => {
             // Refresh data setelah berhasil menambahkan
@@ -172,7 +175,7 @@ onValue(ref(db, 'siswa'), (snapshot) => {
         tabel_siswa_html += '<td>' + data[siswa_id].kelas + '</td>';
         tabel_siswa_html += '<td>' + data[siswa_id].jenis_kelamin + '</td>';
         tabel_siswa_html += '<td>' + data[siswa_id].no_hp + '</td>';
-        tabel_siswa_html += '<td>';
+        tabel_siswa_html += '<td id= "tpbtn" >';
         tabel_siswa_html += '<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalEditSiswa" onclick=" editSiswa(\''+siswa_id+'\')"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">Edit</button>';
         tabel_siswa_html += ' <button type="button" class="btn btn-danger btn-sm" onclick="hapusSiswa(\''+siswa_id+'\')">Hapus</button>';
         tabel_siswa_html += '</td>';
@@ -225,9 +228,9 @@ window.editSiswa = function editSiswa(siswaId){
 const search = document.getElementById("cari_siswa")
 const tbody = document.getElementById("tbody")
 
-search.addEventListener("change", function(e){
+search?.addEventListener("change", function(e){
     let input = e.target.value
-    get(query(ref(db, `siswa`), ...[orderByChild("kelas"), equalTo(input)])).then(snapshot => {
+    get(query(ref(db, `siswa`), ...[orderByChild("nama"), equalTo(input)])).then(snapshot => {
         let data = snapshot.val()
         let row = ""
         if(data != null){
@@ -252,9 +255,83 @@ search.addEventListener("change", function(e){
             })
 
             tbody.innerHTML = row
+        }else {
+            window.swal("Data Tidak Ditemukan", "", "warning");
+            search.value="";
+                
         }
     })
 })
 
+//cari berdasarkan tanggal
+// let tglawal = document.getElementById("tglawal");
+// let tglakhir = document.getElementById("tglakhir");
+// cari_tgl.addEventListener("click", function(){
+//     get(query(ref(db, `siswa`), ...[orderByChild("tgllahir"), startAt(tglawal.value),endAt(tglakhir.value)])).then(snapshot => {
+//         let data = snapshot.val()
+//         let row = ""
+//         if(data != null){
+//             let keys = Object.keys(data)
+//             let values = Object.values(data)
+//             values.map((val, idx) => {
+//                 val.id = keys[idx]
+//                 row += ` 
+//                 <tr>
+//                     <th scope="row">${idx+1}</th>
+//                     <td>${val.nim}</td>
+//                     <td>${val.nama}</td>
+//                     <td>${val.kelas}</td>
+//                     <td>${val.jenis_kelamin}</td>
+//                     <td>${val.no_hp}</td>
+//                     <td>${val.keterangan}</td>
+//                     <td>${val.tgllahir}</td>
+//                     <td>
+//                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalEditSiswa" onclick=" editSiswa(\''+siswa_id+'\')"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">Edit</button>
+//                     <button type="button" class="btn btn-danger btn-sm" onclick="hapusSiswa(\''+siswa_id+'\')">Hapus</button>
+//                     </td>
+//                 </tr>
+//                 `
+//             })
+
+//             tbody.innerHTML = row
+//         }
+//     })
+// })
+
+
+//reset tabel
+let reset_tabel = document.getElementById('reset_siswa')
+reset_tabel?.addEventListener("click", function(){
+    let tabel_siswa = document.getElementById('tabel_siswa');
+    onValue(ref(db, 'siswa'), (snapshot) => {
+        let data = snapshot.val();
+        let tabel_siswa_html = '';
+    
+        let nomor = 1; // tambahkan variabel nomor
+    
+        for (let siswa_id in data) {
+            tabel_siswa_html += '<tr>';
+            tabel_siswa_html += '<td>' + nomor++ + '</td>'; // tambahkan nomor
+            tabel_siswa_html += '<td>' + data[siswa_id].nim + '</td>';
+            tabel_siswa_html += '<td>' + data[siswa_id].nama + '</td>';
+            tabel_siswa_html += '<td>' + data[siswa_id].kelas + '</td>';
+            tabel_siswa_html += '<td>' + data[siswa_id].jenis_kelamin + '</td>';
+            tabel_siswa_html += '<td>' + data[siswa_id].no_hp + '</td>';
+            tabel_siswa_html += '<td>';
+            tabel_siswa_html += '<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalEditSiswa" onclick=" editSiswa(\''+siswa_id+'\')"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">Edit</button>';
+            tabel_siswa_html += ' <button type="button" class="btn btn-danger btn-sm" onclick="hapusSiswa(\''+siswa_id+'\')">Hapus</button>';
+            tabel_siswa_html += '</td>';
+            tabel_siswa_html += '</tr>';
+        }
+    
+        $('#tabel_siswa tbody').html(tabel_siswa_html);
+    });
+    // tglawal.value = ""
+    // tglakhir.value = ""
+})
+
+
+
 let reset_modalsiswa = document.getElementById('btntambah')
 reset_modalsiswa.addEventListener("click",function (){document.getElementById("form_siswa").reset();})
+
